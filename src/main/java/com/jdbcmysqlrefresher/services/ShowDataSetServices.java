@@ -13,6 +13,7 @@ import com.jdbcmysqlrefresher.dom.tables.Follow;
 import com.jdbcmysqlrefresher.dom.tables.Like;
 import com.jdbcmysqlrefresher.dom.tables.Photo;
 import com.jdbcmysqlrefresher.dom.tables.PhotoTag;
+import com.jdbcmysqlrefresher.dom.tables.Project;
 import com.jdbcmysqlrefresher.dom.tables.Table;
 import com.jdbcmysqlrefresher.dom.tables.TableStat;
 import com.jdbcmysqlrefresher.dom.tables.Tag;
@@ -25,7 +26,7 @@ public class ShowDataSetServices {
 	@Autowired
 	private ShowDataSetRepository dataSet;
 	
-	//http://localhost:8080/jdbcmysqlrefresher/showdataset/getAllComments
+	// http://localhost:8080/jdbcmysqlrefresher/showdataset/getAllComments
 	@RequestMapping(value = "/getAllComments", method = RequestMethod.GET, produces = "application/json; charset=UTF-8")
 	public Object getAllComments() throws Exception{
 		List<Comment> comments = dataSet.getAllComments();
@@ -37,7 +38,7 @@ public class ShowDataSetServices {
 		}
 	}
 	
-	//http://localhost:8080/jdbcmysqlrefresher/showdataset/getAllFollows
+	// http://localhost:8080/jdbcmysqlrefresher/showdataset/getAllFollows
 	@RequestMapping(value = "/getAllFollows", method = RequestMethod.GET, produces = "application/json; charset=UTF-8")
 	public Object getAllFollows() throws Exception{
 		List<Follow> follows = dataSet.getAllFollows();
@@ -49,7 +50,7 @@ public class ShowDataSetServices {
 		}
 	}
 	
-	//http://localhost:8080/jdbcmysqlrefresher/showdataset/getAllLikes
+	// http://localhost:8080/jdbcmysqlrefresher/showdataset/getAllLikes
 	@RequestMapping(value = "/getAllLikes", method = RequestMethod.GET, produces = "application/json; charset=UTF-8")
 	public Object getAllLikes() throws Exception{
 		List<Like> likes = dataSet.getAllLikes();
@@ -61,7 +62,7 @@ public class ShowDataSetServices {
 		}
 	}
 	
-	//http://localhost:8080/jdbcmysqlrefresher/showdataset/getAllPhotos
+	// http://localhost:8080/jdbcmysqlrefresher/showdataset/getAllPhotos
 	@RequestMapping(value = "/getAllPhotos", method = RequestMethod.GET, produces = "application/json; charset=UTF-8")
 	public Object getAllPhotos() throws Exception{
 		List<Photo> photos = dataSet.getAllPhotos();
@@ -73,7 +74,7 @@ public class ShowDataSetServices {
 		}
 	}
 	
-	//http://localhost:8080/jdbcmysqlrefresher/showdataset/getAllPhotoTags
+	// http://localhost:8080/jdbcmysqlrefresher/showdataset/getAllPhotoTags
 	@RequestMapping(value = "/getAllPhotoTags", method = RequestMethod.GET, produces = "application/json; charset=UTF-8")
 	public Object getAllPhotoTags() throws Exception{
 		List<PhotoTag> photoTags = dataSet.getAllPhotoTags();
@@ -85,7 +86,7 @@ public class ShowDataSetServices {
 		}
 	}
 	
-	//http://localhost:8080/jdbcmysqlrefresher/showdataset/getAllTables
+	// http://localhost:8080/jdbcmysqlrefresher/showdataset/getAllTables
 	@RequestMapping(value = "/getAllTables", method = RequestMethod.GET, produces = "application/json; charset=UTF-8")
 	public Object getAllTables() throws Exception{
 		List<Table> tables = dataSet.getAllTables();
@@ -97,7 +98,7 @@ public class ShowDataSetServices {
 		}
 	}
 	
-	//http://localhost:8080/jdbcmysqlrefresher/showdataset/getAllTableStats
+	// http://localhost:8080/jdbcmysqlrefresher/showdataset/getAllTableStats
 	@RequestMapping(value = "/getAllTableStats", method = RequestMethod.GET, produces = "application/json; charset=UTF-8")
 	public Object getAllTableStats() throws Exception{
 		List<TableStat> tableStats = dataSet.getAllTableStats();
@@ -109,7 +110,7 @@ public class ShowDataSetServices {
 		}
 	}
 	
-	//http://localhost:8080/jdbcmysqlrefresher/showdataset/getAllTags
+	// http://localhost:8080/jdbcmysqlrefresher/showdataset/getAllTags
 	@RequestMapping(value = "/getAllTags", method = RequestMethod.GET, produces = "application/json; charset=UTF-8")
 	public Object getAllTags() throws Exception{
 		List<Tag> tags = dataSet.getAllTags();
@@ -121,7 +122,7 @@ public class ShowDataSetServices {
 		}
 	}
 	
-	//http://localhost:8080/jdbcmysqlrefresher/showdataset/getAllUsers
+	// http://localhost:8080/jdbcmysqlrefresher/showdataset/getAllUsers
 	@RequestMapping(value = "/getAllUsers", method = RequestMethod.GET, produces = "application/json; charset=UTF-8")
 	public Object getAllUsers() throws Exception{
 		List<User> users = dataSet.getAllUsers();
@@ -133,13 +134,24 @@ public class ShowDataSetServices {
 		}
 	}
 	
-	//http://localhost:8080/jdbcmysqlrefresher/showdataset/getAvailableEndpoints
+	// http://localhost:8080/jdbcmysqlrefresher/showdataset/getAvailableEndpoints
 	@RequestMapping(value = "/getAvailableEndpoints", method = RequestMethod.GET, produces = "application/json; charset=UTF-8")
 	public Object getAvailableEndpoints() throws Exception{
 		List<AvailableEndpoint> availableEndpoints = dataSet.getAvailableEndpoints();
 		if(availableEndpoints != null){
 			LOGGER.info("availableEndpoints size - " + availableEndpoints.size());
 			return availableEndpoints;
+		} else{
+			return null;
+		}
+	}
+	
+	@RequestMapping(value = "/getProjects", method = RequestMethod.GET, produces = "application/json; charset=UTF-8")
+	public Object getProjects() throws Exception{
+		List<Project> p = dataSet.getAllProjects();
+		if(p != null){
+			LOGGER.info("projects size - " + p.size());
+			return p;
 		} else{
 			return null;
 		}

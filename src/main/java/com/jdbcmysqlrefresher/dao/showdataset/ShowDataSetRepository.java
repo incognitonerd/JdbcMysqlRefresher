@@ -11,6 +11,7 @@ import com.jdbcmysqlrefresher.dom.tables.Follow;
 import com.jdbcmysqlrefresher.dom.tables.Like;
 import com.jdbcmysqlrefresher.dom.tables.Photo;
 import com.jdbcmysqlrefresher.dom.tables.PhotoTag;
+import com.jdbcmysqlrefresher.dom.tables.Project;
 import com.jdbcmysqlrefresher.dom.tables.Table;
 import com.jdbcmysqlrefresher.dom.tables.TableStat;
 import com.jdbcmysqlrefresher.dom.tables.Tag;
@@ -92,6 +93,13 @@ public class ShowDataSetRepository {
 	public List<AvailableEndpoint> getAvailableEndpoints(){
 		List<AvailableEndpoint> result = jdbcTemplate.query("SELECT * FROM endpoints", (rs,
 				rowNum)->new AvailableEndpoint(rs.getInt("id"), rs.getString("endpointUrl"), rs.getString("endpointQuery")));
+		return result;
+	}
+	
+	public List<Project> getAllProjects(){
+		List<Project> result = jdbcTemplate.query("SELECT * FROM personalProjects",
+				(rs, rowNum)->new Project(rs.getString("name"), rs.getString("description"), rs.getString("technologies"),
+						rs.getString("appUrl"), rs.getString("githubUrl")));
 		return result;
 	}
 }
