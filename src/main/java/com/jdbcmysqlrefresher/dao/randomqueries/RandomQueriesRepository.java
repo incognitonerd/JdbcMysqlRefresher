@@ -6,13 +6,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import com.jdbcmysqlrefresher.dto.AvgPhotosPerUserDTO;
+import com.jdbcmysqlrefresher.dto.FiveMostPopHashtagsDTO;
 import com.jdbcmysqlrefresher.dto.InactiveUsersDTO;
 import com.jdbcmysqlrefresher.dto.MostPopPhotoDTO;
 import com.jdbcmysqlrefresher.dto.TwoMostPopRegDatesDTO;
+import com.jdbcmysqlrefresher.dto.UsersWhoMayBeBotsDTO;
 import com.jdbcmysqlrefresher.mapper.AvgPhotosPerUserMapper;
+import com.jdbcmysqlrefresher.mapper.FiveMostPopHashtagsMapper;
 import com.jdbcmysqlrefresher.mapper.InactiveUsersMapper;
 import com.jdbcmysqlrefresher.mapper.MostPopPhotoMapper;
 import com.jdbcmysqlrefresher.mapper.TwoMostPopRegDatesMapper;
+import com.jdbcmysqlrefresher.mapper.UsersWhoMayBeBotsMapper;
 
 @Repository
 public class RandomQueriesRepository {
@@ -44,8 +48,24 @@ public class RandomQueriesRepository {
 	public List<AvgPhotosPerUserDTO> getAvgPhotosPerUser(){
 		List<AvgPhotosPerUserDTO> result = this.jdbcTemplate.query(
 				"SELECT (SELECT Count(*)  FROM  photos) AS totalPhotos, (SELECT Count(*) FROM  users) AS totalUsers,  "
-						+ "(SELECT Count(*)  FROM  photos)  / (SELECT Count(*) FROM  users) AS avgPhotosPerUser;",
+						+ "(SELECT Count(*)  FROM  photos)  / (SELECT Count(*) FROM  users) AS avgPhotosPerUser",
 				new AvgPhotosPerUserMapper());
+		return result;
+	}
+	
+	public List<FiveMostPopHashtagsDTO> getFiveMostPopHashtags(){
+		List<FiveMostPopHashtagsDTO> result = this.jdbcTemplate.query(
+				"SELECT tags.tag_name AS tagName, Count(*) AS total FROM   photoTags JOIN tags ON photoTags.tag_id = tags.id  "
+						+ "GROUP  BY tags.id ORDER  BY total DESC LIMIT  5",
+				new FiveMostPopHashtagsMapper());
+		return result;
+	}
+	
+	public List<UsersWhoMayBeBotsDTO> getUsersWhoMayBeBots(){
+		List<UsersWhoMayBeBotsDTO> result = this.jdbcTemplate.query(
+				"SELECT username, Count(*) AS numOflikes FROM   users INNER JOIN likes ON users.id = likes.user_id GROUP  BY likes.user_id "
+						+ "HAVING numOflikes = (SELECT Count(*) FROM   photos)",
+				new UsersWhoMayBeBotsMapper());
 		return result;
 	}
 }
